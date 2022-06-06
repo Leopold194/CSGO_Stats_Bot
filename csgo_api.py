@@ -80,7 +80,3 @@ class CSGOStats:
                     "loses" : i.find_all("span", {"class":"segment-used__tp-name"})[2].text,
                     "ratio" : round(float(i.find_all("span", {"class":"segment-used__tp-name"})[1].text.replace(",", ".")) / float(i.find_all("span", {"class":"segment-used__tp-name"})[2].text.replace(",", ".")), 2)}
         return dict_stats
-
-test = CSGOStats("Leo Urahara")
-
-print(test.informations_weapons)

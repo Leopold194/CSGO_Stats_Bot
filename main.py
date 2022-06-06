@@ -25,19 +25,13 @@ async def on_ready() :
 @client.command()
 @commands.has_permissions(manage_guild=True)
 async def prefix(ctx, prefix):
-	find = False
-	
 	with open("extra.json", "r") as ex:
 		data = json.load(ex)
 
 	for i in range(len(data["prefix"])):
 		if list(data["prefix"][i].keys())[0] == str(ctx.guild.id):
 			data["prefix"][i][str(ctx.guild.id)] = prefix
-			find = True
 			break
-
-	if not find:
-		data["prefix"].append({str(ctx.guild.id) : prefix})
 
 	with open("extra.json", "w") as ex:
 		json.dump(data, ex)
@@ -67,6 +61,14 @@ async def help(ctx):
 @client.command()
 async def profil(ctx):
     pass
+
+@client.event
+async def on_guild_join(guild):
+	with open("extra.json", "r") as ex:
+		data = json.load(ex)
+	data["prefix"].append({str(guild.id): "cs!"})
+	with open("extra.json", "w") as ex:
+		json.dump(data, ex)
 
 keep_alive.keep_alive()
 
