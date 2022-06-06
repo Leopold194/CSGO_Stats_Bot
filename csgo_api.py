@@ -17,7 +17,6 @@ class CSGOStats:
             "sessionid":"3ca004dbe6b357f4b5cea95e"
         }
 
-
         steam_url = f"https://steamcommunity.com/search/SearchCommunityAjax?text={self.name}&filter=users&sessionid=3ca004dbe6b357f4b5cea95e&steamid_user=false"
         site_resp = requests.get(steam_url,headers=headers,cookies=cookies)
         soup_object = BeautifulSoup(site_resp.text, "lxml")
@@ -57,102 +56,12 @@ class CSGOStats:
         self.informations_maps = {}
 
         all_i = soup_object4.find_all("tr")
-        for i in all_i:
-            if i.text[1:4] == "AWP":
-                self.informations_weapons["awp"] = self.do_dict(i)
-            elif i.text[1:5] == "M4A4":
-                self.informations_weapons["m4a4"] = self.do_dict(i)
-            elif i.text[1:6] == "AK-47":
-                self.informations_weapons["ak47"] = self.do_dict(i)
-            elif i.text[1:7] == "SG 553":
-                self.informations_weapons["sg553"] = self.do_dict(i)
-            elif i.text[1:4] == "AUG":
-                self.informations_weapons["aug"] = self.do_dict(i)
-            elif i.text[1:6] == "P2000":
-                self.informations_weapons["p2000"] = self.do_dict(i)
-            elif i.text[1:6] == "Galil":
-                self.informations_weapons["galil"] = self.do_dict(i)
-            elif i.text[1:13] == "Desert Eagle":
-                self.informations_weapons["deagle"] = self.do_dict(i)
-            elif i.text[1:9] == "Glock-18":
-                self.informations_weapons["glock"] = self.do_dict(i)
-            elif i.text[1:6] == "FAMAS":
-                self.informations_weapons["famas"] = self.do_dict(i)
-            elif i.text[1:4] == "MP7":
-                self.informations_weapons["mp7"] = self.do_dict(i)
-            elif i.text[1:4] == "P90":
-                self.informations_weapons["p90"] = self.do_dict(i)
-            elif i.text[1:4] == "MP9":
-                self.informations_weapons["mp9"] = self.do_dict(i)
-            elif i.text[1:5] == "Nova":
-                self.informations_weapons["nova"] = self.do_dict(i)
-            elif i.text[1:14] == "Dual Berettas":
-                self.informations_weapons["berettas"] = self.do_dict(i)
-            elif i.text[1:7] == "UMP-45":
-                self.informations_weapons["ump"] = self.do_dict(i)
-            elif i.text[1:7] == "MAC-10":
-                self.informations_weapons["mac10"] = self.do_dict(i)
-            elif i.text[1:7] == "XM1014":
-                self.informations_weapons["xm1014"] = self.do_dict(i)
-            elif i.text[1:6] == "G3SG1":
-                self.informations_weapons["g3sg1"] = self.do_dict(i)
-            elif i.text[1:7] == "SSG 08":
-                self.informations_weapons["ssg"] = self.do_dict(i)
-            elif i.text[1:8] == "SCAR-20":
-                self.informations_weapons["scar"] = self.do_dict(i)
-            elif i.text[1:9] == "PP-Bizon":
-                self.informations_weapons["ppbizon"] = self.do_dict(i)
-            elif i.text[1:5] == "M249":
-                self.informations_weapons["m249"] = self.do_dict(i)
-            elif i.text[1:6] == "Negev":
-                self.informations_weapons["negev"] = self.do_dict(i)
-            elif i.text[1:5] == "P250":
-                self.informations_weapons["p250"] = self.do_dict(i)
-            elif i.text[1:11] == "Five-SeveN":
-                self.informations_weapons["fiveseven"] = self.do_dict(i)
-            elif i.text[1:6] == "MAG-7":
-                self.informations_weapons["mag7"] = self.do_dict(i)
-            elif i.text[1:6] == "Tec-9":
-                self.informations_weapons["tec9"] = self.do_dict(i)
-            elif i.text[1:10] == "Sawed-Off":
-                self.informations_weapons["sawed"] = self.do_dict(i)
-            elif i.text[1:9] == "Zeus x27":
-                self.informations_weapons["zeus"] = self.do_dict(i)
+        for i in all_i[1:]:
+            self.informations_weapons[i.find_all("span", {"class":"segment-used__tp-name"})[0].text] = self.do_dict(i)
         
         all_i2 = soup_object5.find_all("tr")
-        for i in all_i2:
-            if i.text[1:5] == "Lake":
-                self.informations_maps["lake"] = self.do_dict2(i)
-            elif i.text[1:8] == "Dust II":
-                self.informations_maps["dust2"] = self.do_dict2(i)
-            elif i.text[1:8] == "Inferno":
-                self.informations_maps["inferno"] = self.do_dict2(i)
-            elif i.text[1:5] == "Nuke":
-                self.informations_maps["nuke"] = self.do_dict2(i)
-            elif i.text[1:8] == "Vertigo":
-                self.informations_maps["vertigo"] = self.do_dict2(i)
-            elif i.text[1:12] == "Cobblestone":
-                self.informations_maps["cobblestone"] = self.do_dict2(i)
-            elif i.text[1:7] == "Office":
-                self.informations_maps["office"] = self.do_dict2(i)
-            elif i.text[1:10] == "Safehouse":
-                self.informations_maps["safehouse"] = self.do_dict2(i)
-            elif i.text[1:5] == "Bank":
-                self.informations_maps["bank"] = self.do_dict2(i)
-            elif i.text[1:10] == "Sugarcane":
-                self.informations_maps["sugarcane"] = self.do_dict2(i)
-            elif i.text[1:6] == "Train":
-                self.informations_maps["train"] = self.do_dict2(i)
-            elif i.text[1:10] == "Monastery":
-                self.informations_maps["monastery"] = self.do_dict2(i)
-            elif i.text[1:8] == "Militia":
-                self.informations_maps["militia"] = self.do_dict2(i)
-            elif i.text[1:7] == "Shoots":
-                self.informations_maps["shoots"] = self.do_dict2(i)
-            elif i.text[1:9] == "St. Marc":
-                self.informations_maps["st marc"] = self.do_dict2(i)
-            elif i.text[1:8] == "Baggage":
-                self.informations_maps["baggage"] = self.do_dict2(i)           
+        for i in all_i2[1:]:
+            self.informations_maps[i.find_all("span", {"class":"segment-used__tp-name"})[0].text] = self.do_dict2(i)        
 
     def do_dict(self, i):
         dict_stats = {"kill" : i.find_all("span", {"class":"segment-used__tp-name"})[1].text,
@@ -169,4 +78,4 @@ class CSGOStats:
 
 test = CSGOStats("Leo Urahara")
 
-print(test.informations_maps)
+print(test.informations_weapons)
