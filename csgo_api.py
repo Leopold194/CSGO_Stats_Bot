@@ -67,18 +67,20 @@ class CSGOStats:
             self.informations_maps[i.find_all("span", {"class":"segment-used__tp-name"})[0].text] = self.do_dict2(i)        
 
     def do_dict(self, i):
-        dict_stats = {"kill" : i.find_all("span", {"class":"segment-used__tp-name"})[1].text,
+        dict_stats = {"icons" : i.find_all("img")[0].get("src"),
+                "kill" : i.find_all("span", {"class":"segment-used__tp-name"})[1].text,
                 "fired" : i.find_all("span", {"class":"segment-used__tp-name"})[2].text,
                 "hit" : i.find_all("span", {"class":"segment-used__tp-name"})[3].text,
                 "accuracy" : i.find_all("span", {"class":"segment-used__tp-name"})[4].text}
         return dict_stats
 
     def do_dict2(self, i):
-        dict_stats = {"wins" : i.find_all("span", {"class":"segment-used__tp-name"})[1].text,
+        dict_stats = {"icons" : i.find_all("img")[0].get("src"),
+                    "wins" : i.find_all("span", {"class":"segment-used__tp-name"})[1].text,
                     "loses" : i.find_all("span", {"class":"segment-used__tp-name"})[2].text,
                     "ratio" : round(float(i.find_all("span", {"class":"segment-used__tp-name"})[1].text.replace(",", ".")) / float(i.find_all("span", {"class":"segment-used__tp-name"})[2].text.replace(",", ".")), 2)}
         return dict_stats
 
 test = CSGOStats("Leo Urahara")
 
-print(test.informations_profil)
+print(test.informations_weapons)
