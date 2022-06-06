@@ -22,6 +22,28 @@ async def on_ready() :
 
     await client.change_presence(activity=discord.Activity(type=discord.ActivityType.watching, name="cs!help"))
 
+@client.command()
+@commands.has_permissions(manage_guild=True)
+async def prefix(ctx, prefix):
+	find = False
+	
+	with open("extra.json", "r") as ex:
+		data = json.load(ex)
+
+	for i in range(len(data["prefix"])):
+		if list(data["prefix"][i].keys())[0] == str(ctx.guild.id):
+			data["prefix"][i][str(ctx.guild.id)] = prefix
+			find = True
+			break
+
+	if not find:
+		data["prefix"].append({str(ctx.guild.id) : prefix})
+
+	with open("extra.json", "w") as ex:
+		json.dump(data, ex)
+
+	await ctx.send(embed=discord.Embed(title=f"Le nouveau préfix est {prefix}"))
+
 @commands.cooldown(1, 2, commands.BucketType.user)
 @client.command()
 async def help(ctx):
@@ -37,7 +59,7 @@ async def help(ctx):
 
 	embed = discord.Embed(
 	    title="__**Liste des commandes**__",
-	    description=f"Prefix du bot = `{prefixe}` \n\n:partying_face: **Memes** : \n\n `hug`, `love`, `fight`, `kiss`, `kill`, `cry`, `highfive`, `shoot`, `sleep`, `slap`, `pat`\n\n:gear: **Commandes** : \n\n `pp`, `invite`\n\n:notes: **Musique** : \n\n `play`, `pause`, `resume`, `skip`, `queue`, `leave`\n\n:game_die: **Mini-Jeux** : \n\n `QuizzAnime`, `BlindTest`, `pendu`\n\n:tools: **Modération** (Staff Only) : \n\n `kick`, `kick_except`, `ban`, `unban`, `mute`, `unmute`, `clear`, `AuGoulag`, `SorsDuGoulag`\n\n:computer: **Serveur** (Staff Only) : \n\n `set_welcome_message`, `del_welcome_message`, `poll`, `prefix`",
+	    description=f"Prefix du bot = `{prefixe}` \n\n",
 	    colour=5213)
 	await ctx.send(embed=embed)
 
