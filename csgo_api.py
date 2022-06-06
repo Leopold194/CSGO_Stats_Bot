@@ -1,4 +1,5 @@
 import requests
+import re
 from bs4 import BeautifulSoup
 
 class CSGOStats:
@@ -38,7 +39,7 @@ class CSGOStats:
                             "avatar" : soup_object3.find_all("img", {"class":"ph-avatar__image"})[0].get("src"),
                             "kd" : soup_object3.find_all("span", {"class":"value"})[0].text,
                             "headshot" : soup_object3.find_all("span", {"class":"value"})[1].text,
-                            "win" : soup_object3.find_all("span", {"class":"value"})[2].text,
+                            "pourcent_win" : soup_object3.find_all("span", {"class":"value"})[2].text,
                             "mvp" : soup_object3.find_all("span", {"class":"value"})[3].text,
                             "kill" : soup_object3.find_all("span", {"class":"value"})[4].text,
                             "deaths" : soup_object3.find_all("span", {"class":"value"})[5].text,
@@ -51,7 +52,9 @@ class CSGOStats:
                             "bombsPlanted" : soup_object3.find_all("span", {"class":"value"})[12].text,
                             "bombsDefused" : soup_object3.find_all("span", {"class":"value"})[13].text,
                             "moneyEarned" : soup_object3.find_all("span", {"class":"value"})[14].text,
-                            "hostageRescued" : soup_object3.find_all("span", {"class":"value"})[15].text}
+                            "hostageRescued" : soup_object3.find_all("span", {"class":"value"})[15].text,
+                            "timeplay" : [int(nb) for nb in re.findall(r'-?\d+\.?\d*', soup_object3.find_all("span", {"class" : "playtime"})[0].text)][0],
+                            "nb_match" : [int(nb) for nb in re.findall(r'-?\d+\.?\d*', soup_object3.find_all("span", {"class" : "matches"})[0].text.replace(",", ""))][0]}
         self.informations_weapons = {}
         self.informations_maps = {}
 
@@ -78,4 +81,4 @@ class CSGOStats:
 
 test = CSGOStats("Leo Urahara")
 
-print(test.informations_weapons)
+print(test.informations_profil)
